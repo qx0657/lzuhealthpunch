@@ -46,7 +46,7 @@ def lzulogingetTAG(username,password):
                 "Accept-Encoding": "gzip",
         }  
   data = 'username='+username+'&password='+password
-  r = requests.post(url="http://my.lzu.edu.cn:8080/v1/tickets",headers=headers,data=data)
+  r = requests.post(url="https://appservice.lzu.edu.cn/api/lzu-cas/v1/tickets",headers=headers,data=data)
   if is_json(r.text):
     jsondata = json.loads(r.text)
     action = jsondata['action']
@@ -63,7 +63,7 @@ def getSTByTAG(tag):
                 "Connection": "Keep-Alive",
                 "Accept-Encoding": "gzip",
         }  
-  r = requests.post(url="http://my.lzu.edu.cn:8080//v1/tickets/{}".format(tag),headers=headers,data="service=http://127.0.0.1")
+  r = requests.post(url="https://appservice.lzu.edu.cn/api/lzu-cas/v1/tickets/{}".format(tag),headers=headers,data="service=http://127.0.0.1")
   st = r.text
   return st
 def getUserInfoByst(st):
@@ -75,7 +75,7 @@ def getUserInfoByst(st):
                 "Accept-Encoding": "gzip",
         }  
   data="ticket="+st+"&service=http://127.0.0.1"
-  r = requests.post(url="http://my.lzu.edu.cn:8080/serviceValidate",headers=headers,data=data)
+  r = requests.post(url="https://appservice.lzu.edu.cn/api/lzu-cas/serviceValidate",headers=headers,data=data)
   data = dict()
   data['cardid'] = re.findall(".*<cas:uid>(.*)</cas:uid>.*",r.text)[0]
   data['name'] = re.findall(".*<cas:cn>(.*)</cas:cn>.*",r.text)[0]
